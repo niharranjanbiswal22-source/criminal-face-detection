@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: face-recognition
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+jwt:
+  secret: ${JWT_SECRET:this-is-a-dev-only-secret-please-change-in-production-min-32-bytes}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+
+file:
+  upload-dir: ${FILE_UPLOAD_DIR:./uploads}
+
+face:
+  recognition:
+    model-path: ${FACE_MODEL_PATH:./models/arcface_resnet100.onnx}
+    threshold:
+      possible: 0.80
+      strong: 0.88
+      high: 0.94
+
+# Default admin account created on first boot if it doesn't already exist.
+# CHANGE THE PASSWORD after first login in a real deployment.
+app:
+  default-admin:
+    username: ${DEFAULT_ADMIN_USER:admin}
+    password: ${DEFAULT_ADMIN_PASSWORD:Admin@123}

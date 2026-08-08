@@ -1,0 +1,28 @@
+# Dependencies & Builds
+node_modules/
+frontend/node_modules/
+backend/target/
+target/
+dist/
+frontend/dist/
+.output/
+
+# Logs & Environment
+*.log
+.env
+.env.local
+.env.production
+*.tmp
+scratch/
+
+# IDE & Editor Config
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# OS / Gemini Temporary System Logs
+.system_generated/
+.agents/
