@@ -1,7 +1,11 @@
 import axios from 'axios'
 
+const rawBase = import.meta.env.VITE_API_BASE_URL || 'https://criminal-face-detection-p4gd.onrender.com'
+const cleanBase = rawBase.replace(/\/+$/, '')
+const baseURL = cleanBase.endsWith('/api') ? cleanBase : `${cleanBase}/api`
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
+  baseURL,
 })
 
 api.interceptors.request.use((config) => {
