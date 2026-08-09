@@ -5,7 +5,7 @@ WORKDIR /app
 # Copy entire repository source context
 COPY . .
 
-# Build backend jar (finds pom.xml wherever context is root or backend)
+# Build backend jar
 RUN if [ -f "pom.xml" ]; then mvn -B clean package -DskipTests; else cd backend && mvn -B clean package -DskipTests; fi
 
 # ---- Runtime stage ----
@@ -17,10 +17,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /app /app_build
-RUN find /app_build -name "*.jar" -not -name "*sources.jar" -exec cp {} /app/app.jar \; && rm -rf /app_build
+COPY --from=build /app/backend/target/face-recognition.jar /app/app.jar
 
 RUN mkdir -p /app/models /app/uploads
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
