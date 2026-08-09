@@ -2,8 +2,10 @@
 FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
-COPY pom.xml ./
-COPY src ./src
+# Copy entire backend source context
+COPY . .
+
+# Build backend jar
 RUN mvn -B clean package -DskipTests
 
 # ---- Runtime stage ----
@@ -15,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /app/target/face-recognition.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 
 RUN mkdir -p /app/models /app/uploads
 
